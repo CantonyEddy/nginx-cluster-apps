@@ -1,0 +1,33 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+*.pid
+
+# Docker
+**/data/
+**/volumes/
+docker-compose.override.yml
+
+# Env / Secrets
+.env
+.env.*
+
+# NodeJS (pour Wekan)
+node_modules/
+
+# Python (pour Blogango)
+__pycache__/
+*.pyc
+
+# Portainer (si utilisé en local)
+portainer_data/
+
+# Vscode
+.vscode/
+
+# Backup
+backups/
