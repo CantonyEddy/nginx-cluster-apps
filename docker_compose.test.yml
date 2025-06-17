@@ -1,0 +1,33 @@
+version: "3.8"
+services:
+  wekan:
+    image: wekanteam/wekan:latest
+    ports:
+      - "3001:3001"
+    environment:
+      - ROOT_URL=http://localhost:3001
+      - MONGO_URL=mongodb://mongo:27017/wekan
+    networks:
+      - test_net
+
+  mongo:
+    image: mongo:4.0
+    volumes:
+      - wekan_db:/data/db
+    networks:
+      - test_net
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "80:80"
+    networks:
+      - test_net
+
+networks:
+  test_net:
+
+volumes:
+  wekan_db:
