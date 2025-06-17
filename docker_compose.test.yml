@@ -25,6 +25,10 @@ services:
       - "80:80"
     networks:
       - test_net
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
 
 networks:
   test_net:
