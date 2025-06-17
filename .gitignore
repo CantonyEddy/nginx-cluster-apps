@@ -23,7 +23,7 @@ node_modules/
 __pycache__/
 *.pyc
 
-# Portainer (si utilisé en local)
+# Portainer
 portainer_data/
 
 # Vscode
@@ -31,3 +31,7 @@ portainer_data/
 
 # Backup
 backups/
+
+# Archives
+*.tar.gz
+*.tar
