@@ -34,4 +34,7 @@ volumes:
 
 networks:
   nginx_web_overlay:
+
+networks:
+  nginx_web_overlay:
     external: true
