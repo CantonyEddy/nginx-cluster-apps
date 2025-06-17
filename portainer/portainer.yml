@@ -1,4 +1,3 @@
-# portainer/portainer.yml
 version: "3.8"
 
 services:
@@ -6,10 +5,12 @@ services:
     image: portainer/portainer-ce:latest
     command: -H unix:///var/run/docker.sock
     ports:
-      - 9443:9443  # Accès HTTPS (interface Portainer)
+      - "9443:9443"  # Interface web HTTPS
     volumes:
       - portainer_data:/data
       - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - nginx_web_overlay
     deploy:
       placement:
         constraints:
@@ -17,3 +18,9 @@ services:
 
 volumes:
   portainer_data:
+
+networks:
+  nginx_web_overlay:
+    external: true
+
+# This configuration sets up Portainer with the latest community edition, exposing it on port 9443 for HTTPS access.
