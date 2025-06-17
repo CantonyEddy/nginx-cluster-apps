@@ -1,0 +1,19 @@
+# portainer/portainer.yml
+version: "3.8"
+
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    command: -H unix:///var/run/docker.sock
+    ports:
+      - 9443:9443  # Accès HTTPS (interface Portainer)
+    volumes:
+      - portainer_data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+
+volumes:
+  portainer_data:
