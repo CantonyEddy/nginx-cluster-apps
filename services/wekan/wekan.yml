@@ -8,7 +8,7 @@ services:
     ports:
       - "3001:3001"
     environment:
-      - ROOT_URL=http://wekan.local
+      - ROOT_URL=http://wekan.local:3001
       - MONGO_URL=mongodb://mongo:27017/wekan
 
   mongo:
