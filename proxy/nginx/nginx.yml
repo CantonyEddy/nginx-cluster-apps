@@ -1,0 +1,20 @@
+# proxy/nginx/nginx.yml
+version: "3.8"
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./proxy/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - nginx_web_overlay
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+
+networks:
+  nginx_web_overlay:
+    external: true
