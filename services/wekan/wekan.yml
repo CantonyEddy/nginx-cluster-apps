@@ -3,35 +3,24 @@ version: "3.8"
 services:
   wekan:
     image: wekanteam/wekan:latest
-    environment:
-      - ROOT_URL=http://wekan:3001
-      - MONGO_URL=mongodb://mongo:27017/wekan
-      - MAIL_URL=smtp://user:pass@mail.example.com:25/
-    ports:
-      - "3001:3001"
-    depends_on:
-      - mongo
     networks:
       - nginx_web_overlay
-    deploy:
-      placement:
-        constraints:
-          - node.role != manager
+    ports:
+      - "3001:3001"
+    environment:
+      - ROOT_URL=http://wekan.local
+      - MONGO_URL=mongodb://mongo:27017/wekan
 
   mongo:
     image: mongo:4.0
-    volumes:
-      - wekan_db:/data/db
     networks:
       - nginx_web_overlay
-    deploy:
-      placement:
-        constraints:
-          - node.role != manager
-
-volumes:
-  wekan_db:
+    volumes:
+      - wekan_db:/data/db
 
 networks:
   nginx_web_overlay:
     external: true
+
+volumes:
+  wekan_db:
