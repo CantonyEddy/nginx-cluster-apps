@@ -37,6 +37,11 @@ services:
       nginx_web_overlay:                                # Connect to the existing nginx overlay network
         aliases:
           - ghost                                       # Alias for nginx to resolve Ghost service
+    ports:
+      - target: 2368
+        published: 2368
+        protocol: tcp
+        mode: host                                      # Expose Ghost on port 2368 of the host
     depends_on:
       - ghost_db
     deploy:
