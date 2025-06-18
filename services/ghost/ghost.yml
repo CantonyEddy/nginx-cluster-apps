@@ -26,12 +26,6 @@ services:
         delay: 10s
         max_attempts: 5
         window: 60s
-      healthcheck:
-        test: ["CMD", "curl", "-f", "http://localhost:2368"]
-        interval: 30s
-        timeout: 10s
-        retries: 5
-        start_period: 30s
 
   ghost_db:
     image: mariadb:10.6
@@ -55,12 +49,6 @@ services:
         delay: 10s
         max_attempts: 5
         window: 60s
-      healthcheck:
-        test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-        interval: 30s
-        timeout: 10s
-        retries: 5
-        start_period: 30s
 
 volumes:
   ghost_content:
