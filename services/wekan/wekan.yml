@@ -1,1 +1,47 @@
-#t
+version: "3.8"
+
+services:
+  wekan:
+    image: wekanteam/wekan:latest
+    container_name: wekan
+    ports:
+      - "3001:3001" # Port interne Wekan
+    environment:
+      - ROOT_URL=http://wekan.local
+      - MONGO_URL=mongodb://mongo:27017/wekan
+    networks:
+      - nginx_web_overlay
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.hostname == vm-worker1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+
+  mongo:
+    image: mongo:4.0
+    container_name: wekan_mongo
+    volumes:
+      - wekan_mongo_data:/data/db
+    networks:
+      - nginx_web_overlay
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.hostname == vm-sauvegarde
+      restart_policy:
+        condition: on-failure
+
+networks:
+  nginx_web_overlay:
+    external: true
+
+volumes:
+  wekan_mongo_data:
