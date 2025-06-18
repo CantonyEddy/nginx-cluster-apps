@@ -4,10 +4,9 @@ services:
   ghost:
     image: ghost:5-alpine
     environment:
-      # URL publique pour Ghost
-      - url=http://ghost.local
+      - url=http://ghost.local  # URL publique obligatoire
     volumes:
-      - ghost_data:/var/lib/ghost/content  # Volume pour le contenu (pages, images, etc.)
+      - ghost_data:/var/lib/ghost/content  # Volume persistant
     networks:
       - nginx_web_overlay
     deploy:
@@ -15,7 +14,7 @@ services:
       replicas: 1
       placement:
         constraints:
-          - node.hostname == vm-worker2  # Exécution sur vm-worker2
+          - node.hostname == vm-worker2
       restart_policy:
         condition: on-failure
 
