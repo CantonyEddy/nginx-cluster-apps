@@ -3,24 +3,35 @@ version: "3.8"
 services:
   portainer:
     image: portainer/portainer-ce:latest
-    command: -H unix:///var/run/docker.sock
+    container_name: portainer
     ports:
-      - "9443:9443"  # Interface web HTTPS
+      - "9000:9000"  # Port d'accès à l'interface web
     volumes:
-      - portainer_data:/data
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock  # Accès au socket Docker
+      - portainer_data:/data                       # Volume de persistance des données Portainer
     networks:
-      - nginx_web_overlay
+      - nginx_web_overlay                          # Utilisation du réseau overlay Swarm
     deploy:
+      mode: replicated
+      replicas: 1
       placement:
         constraints:
-          - node.role == manager
+          - node.hostname == vm-manager            # Exécuté uniquement sur le noeud manager
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+        healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:9000"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
+        start_period: 10s
 
 volumes:
   portainer_data:
 
 networks:
   nginx_web_overlay:
-    external: true
-
-# This configuration sets up Portainer with the latest community edition, exposing it on port 9443 for HTTPS access.
+    external: true  # On utilise le réseau overlay déjà créé manuellement
