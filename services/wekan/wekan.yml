@@ -24,7 +24,6 @@ services:
 
   mongo:
     image: mongo:4.0
-    container_name: wekan_mongo
     volumes:
       - wekan_mongo_data:/data/db
     networks:
