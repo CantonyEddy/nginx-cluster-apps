@@ -33,8 +33,8 @@ services:
     volumes:
       - ghost_content:/var/lib/ghost/content
     networks:
-      - ghost_network
-      - nginx_web_overlay  # Connect to the nginx overlay network
+      - ghost_network                                   # Connect to the ghost network
+      - nginx_web_overlay                               # Connect to the nginx overlay network
     depends_on:
       - ghost_db
     deploy:
