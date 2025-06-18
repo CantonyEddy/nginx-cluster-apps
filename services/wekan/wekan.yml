@@ -9,7 +9,6 @@ services:
     environment:
       - ROOT_URL=http://wekan.local
       - MONGO_URL=mongodb://mongo:27017/wekan
-    commands: ["node", "main.js"]
     networks:
       - nginx_web_overlay
     deploy:
