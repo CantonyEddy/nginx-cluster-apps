@@ -9,7 +9,7 @@ services:
       MYSQL_ROOT_PASSWORD: Passw0rd
       MYSQL_DATABASE: ghost
       MYSQL_USER: ghost
-      MYSQL_PASSWORD: Passw0rd
+      MYSQL_PASSWORD: ghost_password
 
     volumes:
       - ghost_db_data:/var/lib/mysql
