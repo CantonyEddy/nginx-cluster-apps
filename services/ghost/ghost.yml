@@ -13,6 +13,7 @@ services:
     volumes:
       - ghost_content:/var/lib/ghost/content
     networks:
+      - nginx_web_overlay
       - ghost_network
     deploy:
       mode: replicated
@@ -68,3 +69,5 @@ volumes:
 networks:
   ghost_network:
     external: false
+  nginx_web_overlay:
+    external: true
