@@ -5,9 +5,10 @@ services:
     image: wekanteam/wekan:latest
     container_name: wekan
     ports:
-      - "3001:3001" # Port interne Wekan
+      - "8080:8080" # Port interne Wekan
     environment:
       - ROOT_URL=http://wekan.local
+      - PORT=8080
       - MONGO_URL=mongodb://mongo:27017/wekan
     networks:
       - nginx_web_overlay
