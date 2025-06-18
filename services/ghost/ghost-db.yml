@@ -3,7 +3,6 @@ version: "3.8"
 services:
   ghost_db:
     image: mariadb:10.6
-    container_name: ghost_db
     restart: unless-stopped
 
     environment:
