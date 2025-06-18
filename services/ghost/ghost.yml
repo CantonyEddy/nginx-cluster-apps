@@ -59,5 +59,4 @@ networks:
 
   nginx_web_overlay:                                    # Use the existing nginx overlay network
     external: true
-    aliases:
-      - ghost
+    alias: ghost                                        # Alias for the Ghost service in the nginx network  
