@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  ghost_db:                                             # Ghost database service
+  ghost_db:                                           # Base de données pour Ghost
     image: mariadb:10.6
     restart: unless-stopped
     environment:
@@ -20,7 +20,7 @@ services:
         constraints:
           - node.hostname == vm-sauvegarde
 
-  ghost:                                                # Ghost service
+  ghost:                                              # Service Ghost
     image: ghost:5-alpine
     restart: unless-stopped
     environment:
@@ -33,17 +33,12 @@ services:
     volumes:
       - ghost_content:/var/lib/ghost/content
     networks:
-      ghost_network:                                    # Custom network for Ghost services
-      nginx_web_overlay:                                # Connect to the existing nginx overlay network
-        aliases:
-          - ghost                                       # Alias for nginx to resolve Ghost service
-    ports:
-      - target: 2368
-        published: 2368
-        protocol: tcp
-        mode: host                                      # Expose Ghost on port 2368 of the host
+      - ghost_network
+      - nginx_web_overlay
     depends_on:
       - ghost_db
+    expose:
+      - "2368"
     deploy:
       mode: replicated
       replicas: 1
@@ -61,8 +56,7 @@ volumes:
   ghost_db_data:
 
 networks:
-  ghost_network:                                        # Custom network for Ghost services
+  ghost_network:
     external: false
-
-  nginx_web_overlay:                                    # Use the existing nginx overlay network
+  nginx_web_overlay:
     external: true
