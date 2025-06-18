@@ -8,26 +8,26 @@ services:
       - "9000:9000"  # Port d'accès à l'interface web
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock  # Accès au socket Docker
-      - portainer_data:/data                       # Volume de persistance des données Portainer
+      - portainer_data:/data  # Volume de persistance des données Portainer
     networks:
-      - nginx_web_overlay                          # Utilisation du réseau overlay Swarm
+      - nginx_web_overlay  # Utilisation du réseau overlay Swarm
     deploy:
       mode: replicated
       replicas: 1
       placement:
         constraints:
-          - node.hostname == vm-manager            # Exécuté uniquement sur le noeud manager
+          - node.hostname == vm-manager  # Exécuté uniquement sur le noeud manager
       restart_policy:
         condition: on-failure
         delay: 5s
         max_attempts: 3
         window: 120s
-        healthcheck:
-        test: ["CMD", "curl", "-f", "http://localhost:9000"]
-        interval: 30s
-        timeout: 10s
-        retries: 5
-        start_period: 10s
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
 
 volumes:
   portainer_data:
