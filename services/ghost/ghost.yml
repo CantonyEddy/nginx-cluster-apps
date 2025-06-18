@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  ghost_db:
+  ghost_db:                                             # Ghost database service
     image: mariadb:10.6
     restart: unless-stopped
     environment:
@@ -20,7 +20,7 @@ services:
         constraints:
           - node.hostname == vm-sauvegarde
 
-  ghost:
+  ghost:                                                # Ghost service
     image: ghost:5-alpine
     restart: unless-stopped
     environment:
@@ -34,6 +34,7 @@ services:
       - ghost_content:/var/lib/ghost/content
     networks:
       - ghost_network
+      - nginx_web_overlay  # Connect to the nginx overlay network
     depends_on:
       - ghost_db
     deploy:
