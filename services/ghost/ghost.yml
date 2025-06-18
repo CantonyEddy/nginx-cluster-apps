@@ -33,8 +33,10 @@ services:
     volumes:
       - ghost_content:/var/lib/ghost/content
     networks:
-      - ghost_network                                   # Connect to the ghost network
-      - nginx_web_overlay                               # Connect to the nginx overlay network
+      ghost_network:                                    # Custom network for Ghost services
+      nginx_web_overlay:                                # Connect to the existing nginx overlay network
+        aliases:
+          - ghost                                       # Alias for nginx to resolve Ghost service
     depends_on:
       - ghost_db
     deploy:
@@ -59,4 +61,3 @@ networks:
 
   nginx_web_overlay:                                    # Use the existing nginx overlay network
     external: true
-    alias: ghost                                        # Alias for the Ghost service in the nginx network  
