@@ -1,8 +1,28 @@
 version: "3.8"
 
 services:
+  ghost_db:
+    image: mariadb:10.6
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: Passw0rd
+      MYSQL_DATABASE: ghost
+      MYSQL_USER: ghost
+      MYSQL_PASSWORD: ghost_password
+    volumes:
+      - ghost_db_data:/var/lib/mysql
+    networks:
+      - ghost_network
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.hostname == vm-sauvegarde
+
   ghost:
     image: ghost:5-alpine
+    restart: unless-stopped
     environment:
       url: http://ghost.local
       database__client: mysql
@@ -13,31 +33,9 @@ services:
     volumes:
       - ghost_content:/var/lib/ghost/content
     networks:
-      - nginx_web_overlay
       - ghost_network
-    deploy:
-      mode: replicated
-      replicas: 1
-      placement:
-        constraints:
-          - node.role == worker
-      restart_policy:
-        condition: on-failure
-        delay: 10s
-        max_attempts: 5
-        window: 60s
-
-  ghost_db:
-    image: mariadb:10.6
-    environment:
-      MYSQL_ROOT_PASSWORD: Passw0rd
-      MYSQL_DATABASE: ghost
-      MYSQL_USER: ghost
-      MYSQL_PASSWORD: ghost_password
-    volumes:
-      - ghost_db_data:/var/lib/mysql
-    networks:
-      - ghost_network
+    depends_on:
+      - ghost_db
     deploy:
       mode: replicated
       replicas: 1
@@ -57,5 +55,3 @@ volumes:
 networks:
   ghost_network:
     external: false
-  nginx_web_overlay:
-    external: true
