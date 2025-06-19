@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  ghost_db:                                                  # Base de données pour Ghost
+  ghost_db:                                                 # Base de données pour Ghost
     image: mariadb:10.6
     restart: unless-stopped
     environment:
